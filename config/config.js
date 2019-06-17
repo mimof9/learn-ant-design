@@ -17,7 +17,9 @@ export default {
       [
           // umi官方插件，集成了常用的一些进阶的功能
           'umi-plugin-react',
-          {}
+          {
+              antd: true,   // 打开antd插件，会引入antd并实现按需编译
+          }
       ],
     ],
 }
