@@ -8,7 +8,21 @@ export default {
     routes: [
         {
             path: '/',
-            component: './HelloWorld',
+            component: '../layout',
+            routes: [
+                {
+                    path: 'helloworld',
+                    component: './HelloWorld'
+                },
+                {
+                    path: '/dashboard',
+                    routes: [
+                        { path: 'analysis', component: 'Dashboard/Analysis' },
+                        { path: '/dashboard/monitor', component: 'Dashboard/Monitor' },
+                        { path: 'workplace', component: './Dashboard/Workplace' }
+                    ]
+                }
+            ]
         }
     ],
 
