@@ -21,6 +21,10 @@ export default {
                         { path: '/dashboard/monitor', component: 'Dashboard/Monitor' },
                         { path: 'workplace', component: './Dashboard/Workplace' }
                     ]
+                },
+                {
+                    path: 'puzzlecards',
+                    component: './puzzlecards'
                 }
             ]
         }
@@ -33,6 +37,7 @@ export default {
           'umi-plugin-react',
           {
               antd: true,   // 打开antd插件，会引入antd并实现按需编译
+              dva: true, // 使用dva框架，进行状态管理
           }
       ],
     ],
