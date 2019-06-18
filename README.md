@@ -31,3 +31,50 @@
     2. action匹配reducer
     3. reducer返回new state
     4. state根据注入到关联组件中rerender
+    
+## CSS modules特性
+> 在 umi 中我们默认开启了 CSS modules 特性，这使得 class 名需要通过变量属性去引用
+- 简单理解CSS modules特性：确保所有的样式能够服务于单个组件
+- 原理是在构建过程中，将css文件中的选择器名和html中修改为唯一的字符串并保留关联
+> _注意：很多 CSS 选择器是不会被 CSS Modules 处理的，比如 body、div 、a 这样的 HTML 标签名就不会。我们推荐如果要定义局部 css 样式/动画， 只使用 class 或 @keyframe。_
+
+### 控制单个页面class选择器不被改变
+- :global(.ant-btn) 其中.ant-btn是antd的按钮的样式 我们使用:global自定义样式，保证可以覆盖antd的默认样式
+
+### 修改antd的默认样式 
+1. 利用 less 提供的一个能力：modifyVars 因为antd的样式是使用less写的
+2. 简单地讲，antd 在使用 less 定义样式时，使用了大量的变量声明。这些变量的定义在编译期是可以被工具识别并修改的
+3. 如果使用的是 umi ，这个过程相当简单，只需要简单地修改配置文件.umirc.js即可
+
+### 那么想写全局样式的时候怎么办？
+> 如果使用 umi 的话，有一个专门的文件 global.less 来让我们书写全局样式。这个文件并不会被 CSS modules 处理。
+1. 一个用途是全局性地定义 HTML 标签的样式，比如写入：heml, body { margin: 0; }
+2. 另外一个用途是全局性地覆盖第三方库的样式，比如 antd 中的样式 
+
+### react 16 生命周期
+> 最难理解的更新过程：牢记每个钩子函数只专注与做一件事
+> getDerivedStateFromProps决定组件新的state
+> shouldComponentUpdate决定是否进行渲染
+> render的功能就是把props和state渲染到视图上
+> 后面两个更新方法 实在新的状态渲染上去之后 进行一些其他的操作，比如网络请求之类的
+> getSnapshotBeforeUpdate的返回值作为componentDidUpdate的第三个参数(快照)
+```
+// 根据新props生成新state：返回值会修改当前组件的state(如果最终没有执行render方法，显示也不会变)
+// prevState是组件的当前的state 也就是this.state。有prevState === this.state
+// nextProps 在加载期间是this.props 在更新期间就是this.props新的值。有nextProps === this.props
+// 想要获取prevProps是不行的：
+// 根据上面对nextProps的解析，知道nextProps可以看作this.props的引用，而获取prevProps的方法就是this.props，
+// 即使能访问this也是没有意义的，更何况该函数为静态函数 无法访问this
+static getDerivedStateFromProps(nextProps, prevState) {
+    console.log('getDerivedStateFromProps', nextProps, prevState)
+    if (nextProps.version === '1.0') return null
+    return {versionXXX: '2.0'}
+}
+
+// 决定是否重新渲染，一般不会改变这个函数，nextState可以看作是getDerivedStateFromProps的返回结果(因为它决定新的state嘛)
+shouldComponentUpdate(nextProps, nextState, nextContext) {
+    console.log('shouldComponentUpdate', nextProps, nextState)
+    // 对比新旧props和state 决定返回true还是false
+    return true
+}
+```

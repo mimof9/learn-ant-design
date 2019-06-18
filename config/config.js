@@ -29,7 +29,27 @@ export default {
                 {
                     path: 'list',
                     component: './list'
-                }
+                },
+                {
+                    path: 'advanced',
+                    component: './advanced',
+                },
+                {
+                    path: 'advanced/less',
+                    component: './advanced/css-modules-with-less'
+                },
+                {
+                    path: 'advanced/antd',
+                    component: './advanced/css-modules-with-antd'
+                },
+                {
+                    path: 'advanced/upordownload',
+                    component: './advanced/upordownload'
+                },
+                {
+                    path: 'advanced/lifecircle',
+                    component: './advanced/lifecircle'
+                },
             ]
         },
     ],
@@ -51,7 +71,15 @@ export default {
           {
               antd: true,   // 打开antd插件，会引入antd并实现按需编译
               dva: true, // 使用dva框架，进行状态管理
+              locale: {     // 国际化，umi 会帮你在自动的通过 LocaleProvider 将 antd 的组件国际化
+                  enable: true
+              },
           }
       ],
     ],
+
+    // 配置 umi 主题（实质是 modifyVars 机制
+    theme: {
+        "@primary-color": "#30b767",
+    }
 }
