@@ -27,8 +27,17 @@ export default {
                     component: './puzzlecards'
                 }
             ]
-        }
+        },
     ],
+
+    // 代理请求
+    proxy: {
+        '/dev': {
+            target: 'http://localhost:3005/',
+            changeOrigin: true,
+            "pathRewrite": { "^/dev" : "" }
+        }
+    },
 
     // 插件
     plugins: [

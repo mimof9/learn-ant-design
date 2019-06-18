@@ -17,12 +17,21 @@ const mapDispatchToProps = (dispatch) => {
                 payload: newCard
             }
             dispatch(action)
-        }
+        },
+        onDidMount: () => {
+            dispatch({
+                type: `${namespace}/queryInitCards`
+            })
+        },
     }
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Puzzlecards extends Component {
+    componentDidMount() {
+        this.props.onDidMount()
+    }
+
     render() {
         return (
             <div>
